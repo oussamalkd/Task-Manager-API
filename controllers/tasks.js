@@ -20,8 +20,16 @@ const createTask = async (req, res) => {
 
 }
 
-const getTask = (req, res) => {
-    res.send("single Task")
+const getTask = async (req, res) => {
+    try {
+        const task = await Task.findOne({_id: req.params.id})
+        if(!task) {
+            return res.status(404).json({msg: "The Task that you're looking for is removed or doesn't exist"})
+        }
+        res.status(200).json({success: true, data: task})
+    } catch (error) {
+        res.status(500).json({success: false, errors: error})
+    }
 }
 
 const updateTask = (req, res) => {
