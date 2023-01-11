@@ -1,3 +1,4 @@
+const { json } = require("express");
 const Task = require("../models/tasks");
 
 const getAllTasks = async (req, res) => {
@@ -36,8 +37,16 @@ const updateTask = (req, res) => {
     res.send("Update Task")
 }
 
-const deleteTask = (req, res) => {
-    res.send("Delete Task")
+const deleteTask = async (req, res) => {
+    try {
+        const task = await Task.findOneAndDelete({_id: req.params.id})
+        if(!task) {
+            return res.status(404).json({ success: false, msg: "task not found"})
+        }
+        res.status(200).json({ success: true, msg: "Task deleted successfuly"})
+    } catch (error) {
+        res.status(500).json({ success: false, error: error})
+    }
 }
 
 module.exports = {
