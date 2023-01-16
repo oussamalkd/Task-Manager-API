@@ -33,8 +33,17 @@ const getTask = async (req, res) => {
     }
 }
 
-const updateTask = (req, res) => {
-    res.send("Update Task")
+const updateTask =  async (req, res) => {
+    try {
+        const task = await Task.findByIdAndUpdate(
+            { _id: req.params.id}, req.body,{ new: true,  runValidators: true })
+        if(!task) {
+            return res.status(404).json({msg: "The Task that you're looking for is removed or doesn't exist"})
+        }
+        res.status(200).json({success: true, data: task})
+    } catch (error) {
+        res.status(500).json({success: false, errors: error})
+    }
 }
 
 const deleteTask = async (req, res) => {
