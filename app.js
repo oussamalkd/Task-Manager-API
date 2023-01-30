@@ -5,6 +5,7 @@ const tasksRoutes = require("./routes/tasks")
 const connectDB = require("./db/connect")
 require("dotenv").config()
 const notFound = require("./middleware/not-found")
+const errorHandllerMiddleware = require("./middleware/errorHandller")
 
 //middleware
 app.use(express.json())
@@ -13,6 +14,7 @@ app.use(express.static("./public"))
 //routes
 app.use("/api/v1/tasks", tasksRoutes)
 app.use(notFound)
+app.use(errorHandllerMiddleware)
 
 // connet to Database
 const start = async() => {
