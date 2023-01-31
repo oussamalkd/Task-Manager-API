@@ -1,9 +1,9 @@
 const express = require("express")
 const app = express()
-const port = 2405
+require("dotenv").config()
+const port = process.env.PORT || 2405
 const tasksRoutes = require("./routes/tasks")
 const connectDB = require("./db/connect")
-require("dotenv").config()
 const notFound = require("./middleware/not-found")
 const errorHandllerMiddleware = require("./middleware/errorHandller")
 
